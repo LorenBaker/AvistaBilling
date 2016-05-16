@@ -1,0 +1,15 @@
+c:\users\loren\onedrive\documents\visual studio 2015\Projects\AvistaBilling\AvistaBilling\bin\Debug\AvistaBilling.exe.config
+c:\users\loren\onedrive\documents\visual studio 2015\Projects\AvistaBilling\AvistaBilling\bin\Debug\AvistaBilling.exe
+c:\users\loren\onedrive\documents\visual studio 2015\Projects\AvistaBilling\AvistaBilling\bin\Debug\AvistaBilling.pdb
+c:\users\loren\onedrive\documents\visual studio 2015\Projects\AvistaBilling\AvistaBilling\obj\Debug\AvistaBilling.csprojResolveAssemblyReference.cache
+c:\users\loren\onedrive\documents\visual studio 2015\Projects\AvistaBilling\AvistaBilling\obj\Debug\AvistaBilling.Properties.Resources.resources
+c:\users\loren\onedrive\documents\visual studio 2015\Projects\AvistaBilling\AvistaBilling\obj\Debug\AvistaBilling.csproj.GenerateResource.Cache
+c:\users\loren\onedrive\documents\visual studio 2015\Projects\AvistaBilling\AvistaBilling\obj\Debug\AvistaBilling.exe
+c:\users\loren\onedrive\documents\visual studio 2015\Projects\AvistaBilling\AvistaBilling\obj\Debug\AvistaBilling.pdb
+c:\users\loren\onedrive\documents\visual studio 2015\Projects\AvistaBilling\AvistaBilling\obj\Debug\AvistaBilling.frmMain.resources
+C:\Users\Loren\onedrive\documents\visual studio 2015\Projects\AvistaBilling\AvistaBilling\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Loren\onedrive\documents\visual studio 2015\Projects\AvistaBilling\AvistaBilling\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Loren\onedrive\documents\visual studio 2015\Projects\AvistaBilling\AvistaBilling\obj\Debug\AvistaBilling.EditRateSchedules.resources
+C:\Users\Loren\onedrive\documents\visual studio 2015\Projects\AvistaBilling\AvistaBilling\obj\Debug\AvistaBilling.frmRateSchedule.resources
+C:\Users\Loren\onedrive\documents\visual studio 2015\Projects\AvistaBilling\AvistaBilling\obj\Debug\AvistaBilling.frmAccounts.resources
+C:\Users\Loren\onedrive\documents\visual studio 2015\Projects\AvistaBilling\AvistaBilling\obj\Debug\AvistaBilling.frmInvoices.resources
