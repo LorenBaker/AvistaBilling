@@ -102,7 +102,7 @@
             this.dgvRateBlocks.Name = "dgvRateBlocks";
             this.dgvRateBlocks.Size = new System.Drawing.Size(682, 192);
             this.dgvRateBlocks.TabIndex = 0;
-            this.dgvRateBlocks.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.gvEnergyRateBlocks_DataError);
+            this.dgvRateBlocks.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvRateBlocks_DataError);
             // 
             // lblRateSchedleNumber
             // 
@@ -302,7 +302,7 @@
             this.dgvDemandRateBlocks.Name = "dgvDemandRateBlocks";
             this.dgvDemandRateBlocks.Size = new System.Drawing.Size(682, 192);
             this.dgvDemandRateBlocks.TabIndex = 0;
-            this.dgvDemandRateBlocks.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.gvDemandRateBlocks_DataError);
+            this.dgvDemandRateBlocks.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvDemandRateBlocks_DataError);
             // 
             // ckBoxHasDemandRates
             // 

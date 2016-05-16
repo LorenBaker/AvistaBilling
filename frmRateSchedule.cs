@@ -61,8 +61,8 @@ namespace AvistaBilling
             rateSchedulesBindingSource.DataSource = frmMain.AppData.RateSchedules.Items;
             rateSchedulesBindingNavigator.BindingSource = rateSchedulesBindingSource;
             RateSchedule currentRateSchedule = (RateSchedule)rateSchedulesBindingSource.Current;
-            setUpRateBlockGrid();
-            setUpDemandRateBlockGrid();
+            populateDgvRateBlocks(currentRateSchedule);
+            populateDgvDemandRateBlocks(currentRateSchedule);
 
             txtBasicCharge.DataBindings.Add("Text", rateSchedulesBindingSource, "BasicCharge");
             txtCityTaxRate.DataBindings.Add("Text", rateSchedulesBindingSource, "CityTaxRate");
@@ -72,17 +72,16 @@ namespace AvistaBilling
             txtServiceType.DataBindings.Add("Text", rateSchedulesBindingSource, "TypeOfService");
             ckBoxHasDemandRates.DataBindings.Add("Checked", rateSchedulesBindingSource, "hasDemandRates");
 
-
-            showDemandRateBlocks(ckBoxHasDemandRates.Checked);
+            refreshRateScheduleForm();
+            
 
             enableRateScheduleChangeEventHandlers();
 
             //refreshForm();
         }
 
-        private void setUpRateBlockGrid()
+        private void populateDgvRateBlocks(RateSchedule currentRateSchedule)
         {
-            RateSchedule currentRateSchedule = (RateSchedule)rateSchedulesBindingSource.Current;
             if (currentRateSchedule == null) { return; }
             BindingSource  rateBlocksBindingSource = new BindingSource();
             rateBlocksBindingSource.DataSource = currentRateSchedule.RateBlocks;
@@ -100,11 +99,17 @@ namespace AvistaBilling
             {
                 rateBlocksBindingSource.AddNew();
             }
+
+            setDgvRateBlocksHeaders();
         }
 
-        private void setUpDemandRateBlockGrid()
+        private void setDgvRateBlocksHeaders()
         {
-            RateSchedule currentRateSchedule = (RateSchedule) rateSchedulesBindingSource.Current;
+            //TODO: 
+        }
+
+        private void populateDgvDemandRateBlocks(RateSchedule currentRateSchedule)
+        {
             if (currentRateSchedule == null) {               
                 dgvDemandRateBlocks.DataSource = null;
                 return;
@@ -137,83 +142,58 @@ namespace AvistaBilling
                 dgvDemandRateBlocks.DataSource = null;
                 currentRateSchedule.DemandRateBlocks = new List<RateBlock>();
             }
+
+            setDgvDemandRateBlocksHeaders();
         }
 
-        private void enableRateScheduleChangeEventHandlers()
+        private void setDgvDemandRateBlocksHeaders()
         {
-            //this.txtBasicCharge.TextChanged += new System.EventHandler(this.scheduleFieldChanged);
-            //this.txtCityTaxRate.TextChanged += new System.EventHandler(this.scheduleFieldChanged);
-            //this.txtRateSchedule.TextChanged += new System.EventHandler(this.scheduleFieldChanged);
-
-            this.cbUtility.SelectedIndexChanged += new System.EventHandler(this.cbUtility_SelectedIndexChanged);
-            this.cbServiceType.SelectedIndexChanged += new System.EventHandler(this.cbServiceType_SelectedIndexChanged);
-            this.ckBoxHasDemandRates.CheckedChanged += new System.EventHandler(this.ckBoxHasDemandRates_CheckedChanged);
-
-
-            //this.cbTypeOfService.SelectedValueChanged += new System.EventHandler(this.cbTypeOfService_SelectedValueChanged);
-
-            //this.gvEnergyRateBlocks.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.scheduleFieldChanged);
-            //this.gvDemandRateBlocks.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.scheduleFieldChanged);
-
-            //this.calendar.DateChanged += new System.Windows.Forms.DateRangeEventHandler(this.scheduleFieldChanged);
-
-            this.bindingNavigatorMoveFirstItem.Click += new System.EventHandler(this.bindingNavigatorRefreshForm);
-            this.bindingNavigatorMovePreviousItem.Click += new System.EventHandler(this.bindingNavigatorRefreshForm);
-            this.bindingNavigatorMoveLastItem.Click += new System.EventHandler(this.bindingNavigatorRefreshForm);
-            this.bindingNavigatorMoveNextItem.Click += new System.EventHandler(this.bindingNavigatorRefreshForm);
-
-            this.rateSchedulesBindingSource.CurrentChanged += new System.EventHandler(this.rateSchedulesBindingSource_CurrentChanged);
-            this.calEffectiveDate.DateChanged += new System.Windows.Forms.DateRangeEventHandler(this.calEffectiveDate_DateChanged);
-
+           //TODO: 
         }
 
-
-
-        private void disableRateScheduleChangeEventHandlers()
-        {
-            //this.txtBasicCharge.TextChanged -= new System.EventHandler(this.scheduleFieldChanged);
-            //this.txtCityTaxRate.TextChanged -= new System.EventHandler(this.scheduleFieldChanged);
-            //this.txtRateSchedule.TextChanged -= new System.EventHandler(this.scheduleFieldChanged);
-
-            this.cbUtility.SelectedValueChanged -= new System.EventHandler(this.scheduleFieldChanged);
-            this.cbServiceType.SelectedValueChanged -= new System.EventHandler(this.scheduleFieldChanged);
-
-            //this.gvEnergyRateBlocks.CellValueChanged -= new System.Windows.Forms.DataGridViewCellEventHandler(this.scheduleFieldChanged);
-            //this.gvDemandRateBlocks.CellValueChanged -= new System.Windows.Forms.DataGridViewCellEventHandler(this.scheduleFieldChanged);
-
-            //this.calendar.DateChanged -= new System.Windows.Forms.DateRangeEventHandler(this.scheduleFieldChanged);
-
-            this.bindingNavigatorMoveFirstItem.Click -= new System.EventHandler(this.bindingNavigatorRefreshForm);
-            this.bindingNavigatorMovePreviousItem.Click -= new System.EventHandler(this.bindingNavigatorRefreshForm);
-            this.bindingNavigatorMoveLastItem.Click -= new System.EventHandler(this.bindingNavigatorRefreshForm);
-            this.bindingNavigatorMoveNextItem.Click -= new System.EventHandler(this.bindingNavigatorRefreshForm);
-        }
-
-        private void refreshForm()
+        private void refreshRateScheduleForm()
         {
             disableRateScheduleChangeEventHandlers();
+
+
             RateSchedule currentRateSchedule = (RateSchedule)rateSchedulesBindingSource.Current;
-            if (currentRateSchedule != null)
+            if (currentRateSchedule == null)
             {
-                txtBasicCharge.Text = currentRateSchedule.BasicCharge.ToString();
-                txtCityTaxRate.Text = (currentRateSchedule.CityTaxRate * 100).ToString();
-                txtRateSchedule.Text = currentRateSchedule.ScheduleNumber.ToString();
-
-                calEffectiveDate.SetDate(currentRateSchedule.EffectiveDate);
-
-                fillDataGrid(dgvRateBlocks, currentRateSchedule.RateBlocks);
-                fillDataGrid(dgvDemandRateBlocks, currentRateSchedule.DemandRateBlocks);
-
-                int selectedIndex = cbServiceType.FindStringExact(currentRateSchedule.TypeOfService);
-                cbServiceType.SelectedIndex = selectedIndex;
-
-                selectedIndex = cbUtility.FindStringExact(currentRateSchedule.Utility);
-                cbUtility.SelectedIndex = selectedIndex;
-
-                ckBoxHasDemandRates.Checked = currentRateSchedule.DemandRateBlocks.Count > 0;
-
-                enableRateScheduleChangeEventHandlers();
+                string title = "Unable to Refresh Rate Schedule Form";
+                string msg = "The current rate schedule is null!";
+                MessageBox.Show(msg, title);
             }
+
+            ckBoxHasDemandRates.Checked = currentRateSchedule.hasDemandRates;
+            showDemandRateBlocks(ckBoxHasDemandRates.Checked);
+
+            calEffectiveDate.SetDate(currentRateSchedule.EffectiveDate);
+
+            populateDgvRateBlocks(currentRateSchedule);
+            populateDgvDemandRateBlocks(currentRateSchedule);
+
+            //RateSchedule currentRateSchedule = (RateSchedule)rateSchedulesBindingSource.Current;
+            //if (currentRateSchedule != null)
+            //{
+            //    txtBasicCharge.Text = currentRateSchedule.BasicCharge.ToString();
+            //    txtCityTaxRate.Text = (currentRateSchedule.CityTaxRate * 100).ToString();
+            //    txtRateSchedule.Text = currentRateSchedule.ScheduleNumber.ToString();
+
+            //    calEffectiveDate.SetDate(currentRateSchedule.EffectiveDate);
+
+            //    fillDataGrid(dgvRateBlocks, currentRateSchedule.RateBlocks);
+            //    fillDataGrid(dgvDemandRateBlocks, currentRateSchedule.DemandRateBlocks);
+
+            //    int selectedIndex = cbServiceType.FindStringExact(currentRateSchedule.TypeOfService);
+            //    cbServiceType.SelectedIndex = selectedIndex;
+
+            //    selectedIndex = cbUtility.FindStringExact(currentRateSchedule.Utility);
+            //    cbUtility.SelectedIndex = selectedIndex;
+
+            //    ckBoxHasDemandRates.Checked = currentRateSchedule.DemandRateBlocks.Count > 0;
+
+            //}
+            enableRateScheduleChangeEventHandlers();
         }
 
         private void fillDataGrid(DataGridView grid, IList<RateBlock> blocks)
@@ -414,7 +394,7 @@ namespace AvistaBilling
                 }
 
                 rateSchedulesBindingSource.Position = newPosition;
-                refreshForm();
+                refreshRateScheduleForm();
             }
             else
             {
@@ -496,29 +476,57 @@ namespace AvistaBilling
             newRateSchedule.DemandRateBlocks = previousDemandRateBlocks;
 
             btnScheduleNotSaved.Visible = true;
-            refreshForm();
+            refreshRateScheduleForm();
         }
 
         #region Event Handlers
 
-        private void bindingNavigatorRefreshForm(object sender, EventArgs e)
+        private void enableRateScheduleChangeEventHandlers()
         {
-            //refreshForm();
+            this.cbUtility.SelectedIndexChanged += new System.EventHandler(this.cbUtility_SelectedIndexChanged);
+            this.cbServiceType.SelectedIndexChanged += new System.EventHandler(this.cbServiceType_SelectedIndexChanged);
+            this.ckBoxHasDemandRates.CheckedChanged += new System.EventHandler(this.ckBoxHasDemandRates_CheckedChanged);
+
+            this.bindingNavigatorMoveFirstItem.Click += new System.EventHandler(this.refreshFormEvent);
+            this.bindingNavigatorMovePreviousItem.Click += new System.EventHandler(this.refreshFormEvent);
+            this.bindingNavigatorMoveLastItem.Click += new System.EventHandler(this.refreshFormEvent);
+            this.bindingNavigatorMoveNextItem.Click += new System.EventHandler(this.refreshFormEvent);
+
+            this.rateSchedulesBindingSource.CurrentChanged += new System.EventHandler(this.rateSchedulesBindingSource_CurrentChanged);
+            this.calEffectiveDate.DateChanged += new System.Windows.Forms.DateRangeEventHandler(this.calEffectiveDate_DateChanged);
+
         }
 
-        private void gvEnergyRateBlocks_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        private void disableRateScheduleChangeEventHandlers()
+        {
+            this.cbUtility.SelectedIndexChanged -= new System.EventHandler(this.cbUtility_SelectedIndexChanged);
+            this.cbServiceType.SelectedIndexChanged -= new System.EventHandler(this.cbServiceType_SelectedIndexChanged);
+            this.ckBoxHasDemandRates.CheckedChanged -= new System.EventHandler(this.ckBoxHasDemandRates_CheckedChanged);
+
+            this.bindingNavigatorMoveFirstItem.Click -= new System.EventHandler(this.refreshFormEvent);
+            this.bindingNavigatorMovePreviousItem.Click -= new System.EventHandler(this.refreshFormEvent);
+            this.bindingNavigatorMoveLastItem.Click -= new System.EventHandler(this.refreshFormEvent);
+            this.bindingNavigatorMoveNextItem.Click -= new System.EventHandler(this.refreshFormEvent);
+
+            this.rateSchedulesBindingSource.CurrentChanged -= new System.EventHandler(this.rateSchedulesBindingSource_CurrentChanged);
+            this.calEffectiveDate.DateChanged -= new System.Windows.Forms.DateRangeEventHandler(this.calEffectiveDate_DateChanged);
+
+        }
+
+        private void refreshFormEvent(object sender, EventArgs e)
+        {
+            refreshRateScheduleForm();
+        }
+
+        private void dgvRateBlocks_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
             System.Diagnostics.Debug.WriteLine("Error: " + e.Exception.Message);
         }
 
-        private void gvDemandRateBlocks_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        private void dgvDemandRateBlocks_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
             System.Diagnostics.Debug.WriteLine("Error: " + e.Exception.Message);
         }
-
-
-
-
 
         private void ckBoxHasDemandRates_CheckedChanged(object sender, EventArgs e)
         {
@@ -527,7 +535,7 @@ namespace AvistaBilling
             {
                 curentRateSchedule.hasDemandRates = ckBoxHasDemandRates.Checked;
                 showDemandRateBlocks(ckBoxHasDemandRates.Checked);
-                setUpDemandRateBlockGrid();
+                populateDgvDemandRateBlocks(curentRateSchedule);
             }
         }
 
@@ -567,7 +575,6 @@ namespace AvistaBilling
         {
             //btnScheduleNotSaved.Visible = true;
         }
-
 
         private void cbUtility_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -613,23 +620,23 @@ namespace AvistaBilling
 
         private void rateSchedulesBindingSource_CurrentChanged(object sender, EventArgs e)
         {
-            this.calEffectiveDate.DateChanged -= new System.Windows.Forms.DateRangeEventHandler(this.calEffectiveDate_DateChanged);
+            //this.calEffectiveDate.DateChanged -= new System.Windows.Forms.DateRangeEventHandler(this.calEffectiveDate_DateChanged);
 
-            RateSchedule currentRateSchedule = (RateSchedule)rateSchedulesBindingSource.Current;
-            calEffectiveDate.SetDate(currentRateSchedule.EffectiveDate);
+            //RateSchedule currentRateSchedule = (RateSchedule)rateSchedulesBindingSource.Current;
+            //calEffectiveDate.SetDate(currentRateSchedule.EffectiveDate);
 
 
-            setUpRateBlockGrid();
-            setUpDemandRateBlockGrid();
+            //populateDgvRateBlocks(currentRateSchedule);
+            //populateDgvDemandRateBlocks(currentRateSchedule);
 
-            this.calEffectiveDate.DateChanged += new System.Windows.Forms.DateRangeEventHandler(this.calEffectiveDate_DateChanged);
+            //this.calEffectiveDate.DateChanged += new System.Windows.Forms.DateRangeEventHandler(this.calEffectiveDate_DateChanged);
 
         }
 
         private void calEffectiveDate_DateChanged(object sender, DateRangeEventArgs e)
         {
-            RateSchedule currentRateSchedule = (RateSchedule)rateSchedulesBindingSource.Current;
-            currentRateSchedule.EffectiveDate = calEffectiveDate.SelectionRange.Start;
+            //RateSchedule currentRateSchedule = (RateSchedule)rateSchedulesBindingSource.Current;
+            //currentRateSchedule.EffectiveDate = calEffectiveDate.SelectionRange.Start;
         }
 
 
